@@ -7,11 +7,11 @@ TEST_SRC := $(wildcard $(TEST_DIR)/*.c)
 SRCDIRS := src \
 		$(TEST_DIR) \
 		mocks \
-		Unity
+		Unity/src
 SRCS := $(foreach SRCDIR, $(SRCDIRS), $(wildcard $(SRCDIR)/*.c))
 
 INCDIRS := include \
-			Unity \
+			Unity/src \
 			mocks
 INCFLAG := $(foreach INC, $(INCDIRS), -I$(INC))
 
@@ -26,7 +26,7 @@ debug:
 
 test: $(SRCS)
 	@ruby Unity\auto\generate_test_runner.rb $(TEST_SRC)
-	@$(CC) $(FLAGS) $(SRCS) -o outTest.exe && ./outTest.exe
+	@$(CC) $(FLAGS) $(SRCS) -o outTest.exe -D TEST && ./outTest.exe
 
 clean:
 	rm -rf *.exe
